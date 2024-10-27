@@ -6,13 +6,17 @@ import {
   faXmark,
   faSpinner,
   faMagnifyingGlass,
+  faEllipsisVertical,
+  faCircleQuestion,
+  faEarthAsia,
+  faKeyboard,
 } from "@fortawesome/free-solid-svg-icons";
 import Tippy from "@tippyjs/react/headless";
 import { useState, useEffect } from "react";
 import AccountItem from "../../../AccountItem";
 import { Wrapper as PopperWrapper } from "../../../Popper";
 import Button from "../../../Button";
-
+import Menu from "../../../Popper/Menu";
 const cx = classNames.bind(styles);
 
 function Header() {
@@ -23,6 +27,48 @@ function Header() {
       setSearchResult([]);
     }, 2000);
   }, []);
+
+  const MENU_ITEMS = [
+    {
+      icon: <FontAwesomeIcon icon={faEarthAsia} />,
+      title: "English",
+      children: {
+        title: "Language",
+        data: [
+          {
+            type: "language",
+            code: "en",
+            title: "English",
+          },
+          {
+            type: "language",
+            code: "vi",
+            title: "Tiếng Việt",
+          },
+        ],
+      },
+    },
+    {
+      icon: <FontAwesomeIcon icon={faCircleQuestion} />,
+      title: "Feedback and help",
+      to: "/feedback",
+    },
+    {
+      icon: <FontAwesomeIcon icon={faKeyboard} />,
+      title: "Keyboard shortcuts",
+    },
+  ];
+
+  //handle logic
+  const handleMenuChange = (menuItem) => {
+    switch (menuItem.type) {
+      case "language":
+        // Handle change language
+        break;
+      default:
+    }
+    console.log(menuItem)
+  };
 
   return (
     <header className={cx("wrapper")}>
@@ -60,8 +106,14 @@ function Header() {
           </div>
         </Tippy>
         <div className={cx("actions")}>
-          <Button text>Upload</Button> 
+          <Button text>Upload</Button>
           <Button primary>Log in</Button>
+
+          <Menu items={MENU_ITEMS} onChange={handleMenuChange}>
+            <button className={cx("more-btn")}>
+              <FontAwesomeIcon icon={faEllipsisVertical} />
+            </button>
+          </Menu>
         </div>
       </div>
     </header>

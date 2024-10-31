@@ -8,17 +8,17 @@ import { useState } from "react";
 const cx = classNames.bind(styles);
 
 const defaultFn = () => {};
-function Menu({ children, items = [], onChange = defaultFn  }) {
+function Menu({ children, items = [], onChange = defaultFn }) {
   // console.log(items)
   const [history, setHistory] = useState([{ data: items }]);
-    // console.log(history)
+  // console.log(history)
   // console.log(history[0])
   const current = history[history.length - 1];
 
   const renderItems = () => {
     return current.data.map((item, index) => {
       const isParent = !!item.children;
-    //   console.log(isParent)
+      //   console.log(isParent)
       return (
         <MenuItem
           key={index}
@@ -26,9 +26,8 @@ function Menu({ children, items = [], onChange = defaultFn  }) {
           onClick={() => {
             if (isParent) {
               setHistory((prev) => [...prev, item.children]);
-            }
-            else{
-                onChange(item);
+            } else {
+              onChange(item);
             }
           }}
         />
@@ -42,6 +41,7 @@ function Menu({ children, items = [], onChange = defaultFn  }) {
       delay={[0, 700]}
       placement="bottom-end"
       // visible = {true}
+      offset={[12,8]}
       render={(attrs) => (
         <div className={cx("menu-list")} tabIndex="-1" {...attrs}>
           <PopperWrapper className={cx("menu-popper")}>
@@ -57,6 +57,7 @@ function Menu({ children, items = [], onChange = defaultFn  }) {
           </PopperWrapper>
         </div>
       )}
+      onHide={() => setHistory((prev) => prev.slice(0, 1))}
     >
       {children}
     </Tippy>
